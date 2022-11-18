@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+requests
+pyinstaller
+pandas
+httpx
+pytest
