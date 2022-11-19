@@ -26,6 +26,19 @@ def test_ls_parameters_fail():
     assert response.status_code == 400
     assert response.json()['detail'] == 'Bad request. Unrecognized option for parameter value.'
 
+
+def test_ls_permission_denied():
+    payload = {'folders': ["/root"]}
+    response = client.post("/ls", json=payload)
+    assert response.status_code == 403
+
+
+def test_ls_directory_not_found():
+    payload = {'folders': ["/qwerty1234"]}
+    response = client.post("/ls", json=payload)
+    assert response.status_code == 404
+
+
 def test_blocking_call():
     def default_call(client):
         time.sleep(1)
