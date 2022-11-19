@@ -18,7 +18,13 @@ The second API takes two soccer club names and returns which one is more likely 
 
 ## Set up
 
-First, navigate to the project folder and set up your favourite virtual environment. Here we use `venv`:
+First, clone the repository to your local computer
+
+```
+git clone git@github.com:Stratiev/api-demo.git
+```
+
+Then navigate to the project folder and set up your favourite virtual environment. Here we use `venv`:
 
 ```
 cd /path/to/api-demo
@@ -26,13 +32,18 @@ python -m venv venv
 source venv/bin/activate
 ```
 
-Then install the dependencies:
+Install the dependencies:
 ```
 pip install --upgrade pip && pip install -r requirements.txt
 ```
 
 Finally, run the live server:
-
 ```
 uvicorn main:app --reload
+```
+
+You can check if the code works as expected by running the unit tests:
+
+```
+pytest unit_tests.py
 ```
