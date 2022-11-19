@@ -39,11 +39,11 @@ pip install --upgrade pip && pip install -r requirements.txt
 
 Finally, run the live server:
 ```
-uvicorn main:app --reload
+uvicorn main:app --reload --app-dir app
 ```
 
 You can check if the code works as expected by running the unit tests:
 
 ```
-pytest unit_tests.py
+pytest test/unit_tests.py
 ```
