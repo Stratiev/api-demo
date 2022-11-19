@@ -1,39 +1,23 @@
-import requests
 import sys
-import pandas as pd
-from datetime import datetime
+from utils import clean_response, prob_from_elo, get_latest_soccer_data
 
-
-def clean_response(res):
-    data = res.text.split('\n')
-    data = [d.split(',')[1:] for d in data if d != '']
-    columns = data[0]
-    data = data[1:]
-    df = pd.DataFrame(data, columns=columns)
-    return df
-
-
-def prob_from_elo(elo):
-    """
-    The probability formula is taken from http://www.eloratings.net/about
-    """
-    return 1/(10**(-elo/400) + 1)
 
 if len(sys.argv) != 3:
     raise ValueError("Expected 2 command line arguments.")
 
+
+df = get_latest_soccer_data()
+clubs = df['Club'].str.lower().unique().tolist()
+
 club_1 = sys.argv[1]
 club_2 = sys.argv[2]
 
-now = datetime.now().strftime("%Y-%m-%d")
-api_url = "http://api.clubelo.com"
+if not club_1.lower() in clubs:
+    raise ValueError(f"{club_1} not in the list of available club names.")
+if not club_2.lower() in clubs:
+    raise ValueError(f"{club_2} not in the list of available club names.")
+    
 
-url = f"{api_url}/{now}"
-
-res = requests.get(url)
-if res.status_code == 200:
-    df = clean_response(res)
-# else Raise some exception...
 
 team_1_elo = float(df[df['Club'].str.lower() == club_1.lower()]['Elo'].iloc[0])
 team_2_elo = float(df[df['Club'].str.lower() == club_2.lower()]['Elo'].iloc[0])
@@ -46,4 +30,3 @@ elif team_1_elo > team_2_elo:
 elif team_2_elo > team_1_elo:
     p = prob_from_elo(team_2_elo - team_1_elo)
     print(f"{club_2} has probability {p:.3f} of winning against {club_1}.")
-
