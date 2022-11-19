@@ -82,9 +82,9 @@ def compile_ls_command(request: ListRequest):
     folders = request.folders
     parameters = request.parameters
     if folders is None:
-        folders = ['.']
+        folders = ls_defaults['folders']
     if parameters is None:
-        parameters = []
+        parameters = ls_defaults['parameters']
     parameters = format_parameters(parameters)
     directory = './' + '/'.join(folders)
     if folders[0] != '.':
