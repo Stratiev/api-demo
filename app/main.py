@@ -6,6 +6,7 @@ from logger import get_logger
 from pydantic import BaseModel, Extra
 from fastapi import FastAPI, HTTPException
 from typing import List, Optional
+from utils import get_latest_soccer_data
 
 LOGGER = get_logger(__name__)
 
@@ -19,33 +20,65 @@ class ListRequest(BaseModel):
     class Config:
         extra = Extra.forbid
 
-defaults = {'folders': None, 'parameters': None}
-default_ls_request = ListRequest(**defaults)
+
+class SoccerTeamsRequest(BaseModel):
+    team_1: str
+    team_2: str
+
+    # This forbids extra parameters
+    class Config:
+        extra = Extra.forbid
+
+ls_defaults = {'folders': ["."],
+               'parameters': [""]}
+default_ls_request = ListRequest(**ls_defaults)
+probability_defaults = {'team_1': 'Djurgarden',
+                        'team_2': 'Hammarby'}
+default_probability_request = SoccerTeamsRequest(**probability_defaults)
+
+
 
 @app.post("/ls")
 async def ls(request: ListRequest=default_ls_request):
     LOGGER.info("Processing ls request.")
-    command = compile_command(request)
+    command = compile_ls_command(request)
     res = subprocess.run(command, capture_output=True)
-    handle_errors(res.stderr)
+    handle_ls_errors(res.stderr)
     return res.stdout
 
 
 @app.post("/blocking_ls")
 async def blocking_ls(request: ListRequest=default_ls_request):
     LOGGER.info("Processing blocking_ls request.")
-    command = compile_command(request)
+    command = compile_ls_command(request)
     res = subprocess.run(command, capture_output=True)
-    handle_errors(res.stderr)
+    handle_ls_errors(res.stderr)
     time.sleep(5)
     return res.stdout
+
+
+@app.post("/probability")
+async def probability(request: SoccerTeamsRequest=default_probability_request):
+    LOGGER.info("Processing probability request.")
+    command = ['./external_executable'] + [request.team_1] + [request.team_2]
+    res = subprocess.run(command, capture_output=True)
+    return res.stdout
+
+
+@app.get("/soccer_teams")
+async def soccer_teams():
+    LOGGER.info("Processing soccer teams get request.")
+    df = get_latest_soccer_data()
+    clubs = df['Club'].unique().tolist()
+    return {'clubs': clubs}
 
 
 @app.on_event("shutdown")
 def shutdown_event():
     LOGGER.info("Application shutdown")
 
-def compile_command(request: ListRequest):
+
+def compile_ls_command(request: ListRequest):
     folders = request.folders
     parameters = request.parameters
     if folders is None:
@@ -62,7 +95,8 @@ def compile_command(request: ListRequest):
     command = [c for c in command if c]
     return command
 
-def handle_errors(stderr):
+
+def handle_ls_errors(stderr):
     handle_not_found(stderr)
     handle_permission_denied(stderr)
     handle_invalid_option(stderr)

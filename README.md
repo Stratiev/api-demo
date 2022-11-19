@@ -18,6 +18,8 @@ The second API takes two soccer club names and returns which one is more likely 
 
 ## Set up
 
+### Prerequisites
+
 First, clone the repository to your local computer
 
 ```
@@ -37,13 +39,25 @@ Install the dependencies:
 pip install --upgrade pip && pip install -r requirements.txt
 ```
 
-Finally, run the live server:
+### Set up external executable for /probability end point
+
 ```
-uvicorn main:app --reload --app-dir app
+pyinstaller --onefile external_executable.py
+cp dist/external_executable .
 ```
+
+### Run tests and use code
 
 You can check if the code works as expected by running the unit tests:
 
 ```
 pytest test/unit_tests.py
 ```
+
+Finally, run the live server:
+```
+uvicorn main:app --reload --app-dir app
+```
+
+Now you can manually inspect the endpoints on the [docs page](http://127.0.0.1:8000/docs).
+
