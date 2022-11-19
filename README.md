@@ -3,12 +3,12 @@
 ## About
 This is a demo API prepared for a coding assignment. It is a toy example with the goal of satisfying the following requirements:
 
-    - Respond to json requests
-    - Make a call to an external executable
-    - Approriately handle errors with the correct http status code
-    - Handle new requests while performing a blocking call
-    - Graceful shutdown
-    - Sample unit test(s)
+- Respond to json requests
+- Make a call to an external executable
+- Approriately handle errors with the correct http status code
+- Handle new requests while performing a blocking call
+- Graceful shutdown
+- Sample unit test(s)
 
 This API supports two endpoints. 
 
