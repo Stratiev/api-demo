@@ -41,6 +41,8 @@ pip install --upgrade pip && pip install -r requirements.txt
 
 ### Set up external executable for /probability end point
 
+Compile the python file into a binary.
+
 ```
 pyinstaller --onefile external_executable.py
 cp dist/external_executable .
@@ -60,4 +62,23 @@ uvicorn main:app --reload --app-dir app
 ```
 
 Now you can manually inspect the endpoints on the [docs page](http://127.0.0.1:8000/docs).
+
+For example
+
+```
+curl -X 'POST' \
+  'http://127.0.0.1:8000/probability' \   
+  -H 'accept: application/json' \      
+  -H 'Content-Type: application/json' \
+  -d '{                                
+  "team_1": "Djurgarden",
+  "team_2": "Hammarby"   
+}'  
+```
+
+should produce something like this
+
+```
+"Djurgarden has probability 0.563 of winning against Hammarby.\n"
+```
 
