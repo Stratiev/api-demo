@@ -67,13 +67,13 @@ For example
 
 ```
 curl -X 'POST' \
-  'http://127.0.0.1:8000/probability' \   
-  -H 'accept: application/json' \      
+  'http://127.0.0.1:8000/probability' \
+  -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
-  -d '{                                
+  -d '{
   "team_1": "Djurgarden",
-  "team_2": "Hammarby"   
-}'  
+  "team_2": "Hammarby"
+}'
 ```
 
 should produce something like this
