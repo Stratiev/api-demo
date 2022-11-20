@@ -19,7 +19,7 @@ async def ls(request: ListRequest):
     command = compile_ls_command(request)
     res = subprocess.run(command, capture_output=True)
     handle_ls_errors(res.stderr)
-    return res.stdout
+    return {'text': res.stdout}
 
 @app.post("/blocking_ls")
 async def blocking_ls(request: ListRequest):
@@ -28,7 +28,7 @@ async def blocking_ls(request: ListRequest):
     res = subprocess.run(command, capture_output=True)
     handle_ls_errors(res.stderr)
     time.sleep(5)
-    return res.stdout
+    return {'text': res.stdout}
 
 @app.post("/probability")
 async def probability(request: SoccerTeamsRequest):
@@ -36,7 +36,7 @@ async def probability(request: SoccerTeamsRequest):
     command = ['./external_executable'] + [request.team_1] + [request.team_2]
     res = subprocess.run(command, capture_output=True)
     handle_invalid_team_name(res.stderr)
-    return res.stdout
+    return {'text': res.stdout}
 
 @app.post("/blocking_probability")
 async def blocking_probability(request: SoccerTeamsRequest):
@@ -45,7 +45,7 @@ async def blocking_probability(request: SoccerTeamsRequest):
     res = subprocess.run(command, capture_output=True)
     handle_invalid_team_name(res.stderr)
     time.sleep(5)
-    return res.stdout
+    return {'text': res.stdout}
 
 @app.get("/soccer_teams")
 async def soccer_teams():

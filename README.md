@@ -81,3 +81,13 @@ should produce something like this
 "Djurgarden has probability 0.563 of winning against Hammarby.\n"
 ```
 
+## To-do
+
+- Extract the output of `ls` and turn it into a list. For example, default `ls` can return a json
+    `{'items': [list_returned_by_ls]}`,
+whereas if `-l` is provided (`ls -l`) can format `list_returned_by_ls` as a dictionary with keys 'permissions', 'user', 'group', 'last_modified', 'filetype' etc.
+For other options one may properly format information about inodes, file sizes and other.
+- The output of /probability can be split into 'text', which is the original output of the binary and 'probability', which is the numerical value extracted.
+- Override default validation errors from fastAPI in order to add logging for the automated validation error handling.
+- Add authentication and a limit to the number of requests per user, etc...
+
