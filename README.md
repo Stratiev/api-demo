@@ -44,8 +44,7 @@ pip install --upgrade pip && pip install -r requirements.txt
 Compile the python file into a binary.
 
 ```
-pyinstaller --onefile external_executable.py
-cp dist/external_executable .
+./create_executable.sh
 ```
 
 ### Run tests and use code
