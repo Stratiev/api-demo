@@ -25,5 +25,6 @@ def get_latest_soccer_data():
     res = requests.get(url)
     if res.status_code == 200:
         df = clean_response(res)
-    # else Raise some exception...
+    else:
+        raise ValueError(f"Failed to fetch data. Status code {res.status_code}.")
     return df
