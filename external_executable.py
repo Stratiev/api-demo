@@ -1,5 +1,5 @@
 import sys
-from utils import clean_response, prob_from_elo, get_latest_soccer_data
+from utils import prob_from_elo, get_latest_soccer_data
 
 
 if len(sys.argv) != 3:
