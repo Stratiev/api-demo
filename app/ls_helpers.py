@@ -1,8 +1,10 @@
-from typing import Optional, List
 import re
-from logger import get_logger
+from typing import List, Optional
+
 from fastapi import HTTPException
 from pydantic import BaseModel, Extra
+
+from logger import get_logger
 
 LOGGER = get_logger(__name__)
 

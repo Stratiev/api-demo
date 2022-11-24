@@ -1,10 +1,12 @@
-import time
 import subprocess
-from logger import get_logger
+import time
+
 from fastapi import FastAPI
-from utils import get_latest_soccer_data
+
 from app.ls_helpers import ListRequest, compile_ls_command, handle_ls_errors
 from app.probability_helpers import SoccerTeamsRequest, handle_invalid_team_name
+from logger import get_logger
+from utils import get_latest_soccer_data
 
 LOGGER = get_logger(__name__)
 

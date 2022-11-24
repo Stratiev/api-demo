@@ -1,7 +1,9 @@
-from logger import get_logger
 import re
-from pydantic import BaseModel, Extra
+
 from fastapi import HTTPException
+from pydantic import BaseModel, Extra
+
+from logger import get_logger
 
 LOGGER = get_logger(__name__)
 class SoccerTeamsRequest(BaseModel):
